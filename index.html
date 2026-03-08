@@ -1,447 +1,180 @@
-03.08 09:08
+03.08 11:37
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>雨雨欣的专属手机</title>
-<style>
-body{margin:0;padding:0;width:100vw;height:100vh;background:#f9f9f9;font-family:-apple-system,sans-serif;overflow:hidden}
-.iphone{width:100%;height:100%;position:relative;overflow:hidden}
-.screen{width:100%;height:100%;position:absolute;top:0;left:0;background:#f9f9f9;background-size:cover;background-position:center;transition:.3s}
-.hidden{transform:translateX(100%);opacity:0;pointer-events:none}
-.active{transform:translateX(0);opacity:1;pointer-events:auto}
-.top-area{display:flex;flex-direction:column;align-items:center;padding-top:20px;gap:8px}
-.avatar{width:80px;height:80px;background:#fff;border-radius:50%;box-shadow:0 4px 10px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font-size:40px;overflow:hidden}
-.bg-strip{width:85%;height:90px;background:linear-gradient(135deg,#ff9a9e 0,#fecfef 100%);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:45px;color:#fff;font-weight:700;text-shadow:2px 2px 5px rgba(0,0,0,.3);overflow:hidden}
-.mixed-layout{display:flex;padding:10px 20px;gap:12px;margin-top:5px}
-.layout-col{flex:1;display:flex;flex-direction:column;gap:10px}
-.apps-2x2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.app-icon-small{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer}
-.icon-box-small{width:100%;aspect-ratio:1/1;border-radius:14px;display:flex;justify-content:center;align-items:center;font-size:28px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden;background:#fff}
-.icon-label-small{font-size:12px;color:#333;font-weight:600}
-.widget-wrapper{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
-.widget-box{width:100%;aspect-ratio:1/1;border-radius:22px;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.1);overflow:hidden}
-.widget-label{font-size:13px;color:#333;font-weight:700}
-.dock{position:absolute;bottom:30px;left:20px;right:20px;height:90px;background:rgba(255,255,255,.6);backdrop-filter:blur(15px);border-radius:30px;display:flex;justify-content:space-around;align-items:center}
-.dock-icon{width:60px;height:60px;border-radius:15px;display:flex;justify-content:center;align-items:center;font-size:35px;overflow:hidden}
-.app-header{height:80px;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);display:flex;align-items:flex-end;padding:0 20px 15px;position:sticky;top:0;z-index:10}
-.back-btn{font-size:16px;color:#ff9a9e;cursor:pointer;font-weight:700}
-.app-title{flex:1;text-align:center;font-size:18px;font-weight:700;margin-right:30px}
-.content{padding:20px}
-.btn{width:100%;padding:15px;background:#ff9a9e;color:#fff;border:none;border-radius:12px;font-weight:700;margin-bottom:10px}
-.gallery-toolbar{display:flex;justify-content:space-between;padding:10px 20px;background:#fff;border-bottom:1px solid #eee}
-.gallery-toolbar button{border:none;border-radius:8px;padding:8px 14px;font-weight:700}
-.btn-blue{background:#007aff;color:#fff}
-.btn-red{background:#ff3b30;color:#fff}
-.btn-green{background:#4cd964;color:#fff}
-.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
-.photo-item{aspect-ratio:1/1;background:#eee;background-size:cover;background-position:center;position:relative;cursor:pointer}
-.photo-item.selected::after{content:'✓';position:absolute;top:5px;right:5px;width:20px;height:20px;background:#007aff;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
-.photo-detail{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:999;display:flex;flex-direction:column}
-.detail-head{padding:40px 20px 10px;display:flex;justify-content:space-between;color:#fff;align-items:center}
-.detail-back{font-size:16px;cursor:pointer;color:#ff9a9e}
-.detail-select{font-size:16px;cursor:pointer;color:#ff9a9e}
-.detail-time{text-align:center;color:#fff;margin:10px 0;font-size:16px}
-.detail-img{flex:1;display:flex;align-items:center;justify-content:center}
-.detail-img img{max-width:90%;max-height:70%;object-fit:contain}
-.detail-bar{display:flex;justify-content:space-around;padding:20px;background:#1c1c1e}
-.detail-btn{color:#fff;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer}
-.wx-tab{display:flex;height:50px;background:#f7f7f7;border-top:1px solid #ddd}
-.wx-tab-item{flex:1;text-align:center;font-size:12px;padding:5px;color:#666}
-.wx-tab-item.active{color:#07c160;font-weight:700}
-.wx-list{height:calc(100% - 80px - 50px);overflow-y:auto}
-.wx-item{display:flex;padding:12px;border-bottom:1px solid #f0f0f0;align-items:center}
-.wx-avatar{width:50px;height:50px;border-radius:8px;background:#ddd;background-size:cover;cursor:pointer}
-.wx-name{margin-left:12px;font-size:16px;flex:1}
-.wx-add{position:absolute;right:20px;top:90px;background:#07c160;color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:12px}
-.heart-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:20px;border-radius:12px;box-shadow:0 0 20px rgba(0,0,0,.3);z-index:999;width:80%}
-.heart-hide{display:none}
-.my-avatars{display:flex;gap:8px;padding:10px;overflow-x:auto}
-.my-avatar{width:40px;height:40px;border-radius:50%;background-size:cover;cursor:pointer;border:2px solid transparent}
-.my-avatar.active{border-color:#ff9a9e}
-</style>
+<title>雨雨欣的专属手机 · 高仿微信</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="iphone">
 <input type="file" id="file" accept="image/*" style="display:none">
 <input type="file" id="galleryFile" accept="image/*" multiple style="display:none">
+<!-- 主屏幕（首页） -->
 <div id="home" class="screen active">
-<div class="top-area">
-<div class="avatar" id="avatar"></div>
-<div class="bg-strip" id="clock">00:00</div>
+  <div class="top-area">
+    <div class="avatar" id="avatar"></div>
+    <div class="bg-strip" id="clock">00:00</div>
+  </div>
+  <div class="mixed-layout">
+    <div class="layout-col">
+      <div class="apps-2x2">
+        <div class="app-icon-small" onclick="openApp('chat-screen')">
+          <div class="icon-box-small" style="background:#07c160;color:#fff"></div>
+          <span class="icon-label-small">微信</span>
+        </div>
+        <div class="app-icon-small" onclick="openApp('gallery-screen')">
+          <div class="icon-box-small" style="background:#ffcc00;color:#fff">️</div>
+          <span class="icon-label-small">相册</span>
+        </div>
+        <div class="app-icon-small"><div class="icon-box-small" style="color:#ff3b30"></div><span class="icon-label-small">日历</span></div>
+        <div class="app-icon-small"><div class="icon-box-small" style="color:#4cd964">⛅</div><span class="icon-label-small">天气</span></div>
+      </div>
+      <div class="widget-wrapper">
+        <div class="widget-box" id="widget-music"><div style="width:100%;height:100%;background:#333;display:flex;justify-content:center;align-items:center;color:#fff;font-size:40px"></div></div>
+        <span class="widget-label">网易云音乐</span>
+      </div>
+    </div>
+    <div class="layout-col">
+      <div class="widget-wrapper" onclick="openFirstPhoto()">
+        <div class="widget-box" id="widget-gallery"><div style="width:100%;height:100%;background:#fecfef;display:flex;justify-content:center;align-items:center;color:#fff;font-size:40px">️</div></div>
+        <span class="widget-label">相册精选</span>
+      </div>
+      <div class="apps-2x2">
+        <div class="app-icon-small" onclick="openApp('beautify-screen')"><div class="icon-box-small" style="background:linear-gradient(135deg,#ff69b4,#ff1493);color:#fff">✨</div><span class="icon-label-small">美化</span></div>
+        <div class="app-icon-small"><div class="icon-box-small" style="background:linear-gradient(135deg,#ffd700,#ffb90f);color:#fff"></div><span class="icon-label-small">纪念日</span></div>
+        <div class="app-icon-small"><div class="icon-box-small" style="background:linear-gradient(135deg,#4cd964,#34c759);color:#fff"></div><span class="icon-label-small">钱包</span></div>
+        <div class="app-icon-small" onclick="openApp('settings-screen')"><div class="icon-box-small" style="background:linear-gradient(135deg,#8e8e93,#d1d1d6);color:#fff">⚙️</div><span class="icon-label-small">设置</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="dock">
+    <div class="dock-icon" style="background:#34c759;color:#fff"></div>
+    <div class="dock-icon" style="background:#007aff;color:#fff"></div>
+    <div class="dock-icon" style="background:#ff9500;color:#fff"></div>
+  </div>
 </div>
-<div class="mixed-layout">
-<div class="layout-col">
-<div class="apps-2x2">
-<div class="app-icon-small" onclick="openApp('chat-screen')">
-<div class="icon-box-small" style="background:#07c160;color:#fff"></div>
-<span class="icon-label-small">微信</span>
-</div>
-<div class="app-icon-small" onclick="openApp('gallery-screen')">
-<div class="icon-box-small" style="background:#ffcc00;color:#fff">️</div>
-<span class="icon-label-small">相册</span>
-</div>
-<div class="app-icon-small">
-<div class="icon-box-small" style="color:#ff3b30"></div>
-<span class="icon-label-small">日历</span>
-</div>
-<div class="app-icon-small">
-<div class="icon-box-small" style="color:#4cd964">⛅</div>
-<span class="icon-label-small">天气</span>
-</div>
-</div>
-<div class="widget-wrapper">
-<div class="widget-box" id="widget-music"><div style="width:100%;height:100%;background:#333;display:flex;justify-content:center;align-items:center;color:#fff;font-size:40px"></div></div>
-<span class="widget-label">网易云音乐</span>
-</div>
-</div>
-<div class="layout-col">
-<div class="widget-wrapper" onclick="openFirstPhoto()">
-<div class="widget-box" id="widget-gallery"><div style="width:100%;height:100%;background:#fecfef;display:flex;justify-content:center;align-items:center;color:#fff;font-size:40px">️</div></div>
-<span class="widget-label">相册精选</span>
-</div>
-<div class="apps-2x2">
-<div class="app-icon-small" onclick="openApp('beautify-screen')">
-<div class="icon-box-small" style="background:linear-gradient(135deg,#ff69b4,#ff1493);color:#fff">✨</div>
-<span class="icon-label-small">美化</span>
-</div>
-<div class="app-icon-small">
-<div class="icon-box-small" style="background:linear-gradient(135deg,#ffd700,#ffb90f);color:#fff"></div>
-<span class="icon-label-small">纪念日</span>
-</div>
-<div class="app-icon-small">
-<div class="icon-box-small" style="background:linear-gradient(135deg,#4cd964,#34c759);color:#fff"></div>
-<span class="icon-label-small">钱包</span>
-</div>
-<div class="app-icon-small" onclick="openApp('settings-screen')">
-<div class="icon-box-small" style="background:linear-gradient(135deg,#8e8e93,#d1d1d6);color:#fff">⚙️</div>
-<span class="icon-label-small">设置</span>
-</div>
-</div>
-</div>
-</div>
-<div class="dock">
-<div class="dock-icon" style="background:#34c759;color:#fff"></div>
-<div class="dock-icon" style="background:#007aff;color:#fff"></div>
-<div class="dock-icon" style="background:#ff9500;color:#fff"></div>
-</div>
-</div>
+<!-- 相册屏幕 -->
 <div id="gallery-screen" class="screen hidden">
-<div class="app-header"><div class="back-btn" onclick="goHome()">返回</div><div class="app-title">宝宝的相册</div></div>
-<div class="gallery-toolbar">
-<button class="btn-blue" onclick="toggleSelect()">多选</button>
-<div><button class="btn-red" onclick="delSelect()" style="display:none">删除</button><button class="btn-green" onclick="shareSelect()" style="display:none">分享</button></div>
+  <div class="app-header"><div class="back-btn" onclick="goHome()">返回</div><div class="app-title">宝宝的相册</div></div>
+  <div class="gallery-toolbar"><button class="btn-blue" onclick="toggleSelect()">多选</button><div><button class="btn-red" onclick="delSelect()" style="display:none">删除</button><button class="btn-green" onclick="shareSelect()" style="display:none">分享</button></div></div>
+  <div style="padding:15px;text-align:center"><button style="border:none;background:#007aff;color:#fff;padding:12px 24px;border-radius:20px;font-weight:700" onclick="galleryFile.click()">+ 添加照片</button></div>
+  <div class="photo-grid" id="photoGrid"></div>
 </div>
-<div style="padding:15px;text-align:center"><button style="border:none;background:#007aff;color:#fff;padding:12px 24px;border-radius:20px;font-weight:700" onclick="galleryFile.click()">+ 添加照片</button></div>
-<div class="photo-grid" id="photoGrid"></div>
-</div>
+<!-- 照片详情 -->
 <div id="photo-detail" class="hidden">
-<div class="photo-detail">
-<div class="detail-head">
-<div class="detail-back" onclick="closeDetail()">← 返回</div>
-<div class="detail-select" onclick="toggleSelect()">选择</div>
+  <div class="photo-detail">
+    <div class="detail-head"><div class="detail-back" onclick="closeDetail()">← 返回</div><div class="detail-select" onclick="toggleSelect()">选择</div></div>
+    <div class="detail-time" id="showTime"></div>
+    <div class="detail-img"><img id="showImg"></div>
+    <div class="detail-bar">
+      <div class="detail-btn" onclick="shareDetail()">分享</div>
+      <div class="detail-btn" onclick="removeDetail()">↩️移出</div>
+      <div class="detail-btn" onclick="delDetail()">删除</div>
+      <div class="detail-btn" onclick="setWallpaper()">️壁纸</div>
+    </div>
+  </div>
 </div>
-<div class="detail-time" id="showTime"></div>
-<div class="detail-img"><img id="showImg"></div>
-<div class="detail-bar">
-<div class="detail-btn" onclick="shareDetail()">分享</div>
-<div class="detail-btn" onclick="removeDetail()">↩️移出</div>
-<div class="detail-btn" onclick="delDetail()">删除</div>
-<div class="detail-btn" onclick="setWallpaper()">️壁纸</div>
-</div>
-</div>
-</div>
+<!-- 美化屏幕 -->
 <div id="beautify-screen" class="screen hidden">
-<div class="app-header"><div class="back-btn" onclick="goHome()">返回</div><div class="app-title">美化中心</div></div>
-<div class="content">
-<button class="btn" onclick="setTarget('wallpaper')">更换壁纸</button>
-<button class="btn" onclick="setTarget('avatar')">更换头像</button>
-<button class="btn" onclick="setTarget('clock')">更换时间条</button>
-<button class="btn" onclick="setTarget('widget-music')">更换网易云音乐</button>
-<button class="btn" onclick="setTarget('widget-gallery')">更换相册精选</button>
+  <div class="app-header"><div class="back-btn" onclick="goHome()">返回</div><div class="app-title">美化中心</div></div>
+  <div class="content">
+    <button class="btn" onclick="setTarget('wallpaper')">更换壁纸</button>
+    <button class="btn" onclick="setTarget('avatar')">更换头像</button>
+    <button class="btn" onclick="setTarget('clock')">更换时间条</button>
+    <button class="btn" onclick="setTarget('widget-music')">更换网易云音乐</button>
+    <button class="btn" onclick="setTarget('widget-gallery')">更换相册精选</button>
+  </div>
 </div>
-</div>
+<!-- 设置屏幕 -->
 <div id="settings-screen" class="screen hidden">
-<div class="app-header"><div class="back-btn" onclick="goHome()">返回</div><div class="app-title">设置</div></div>
-<div class="content">
-<input id="apiUrl" placeholder="API URL" style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;margin-bottom:10px;box-sizing:border-box">
-<input id="apiKey" placeholder="API Key" type="password" style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;margin-bottom:10px;box-sizing:border-box">
-<input id="apiModel" list="modelList" placeholder="模型名称" style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;margin-bottom:10px;box-sizing:border-box">
-<datalist id="modelList"></datalist>
-<button class="btn" onclick="pullModel()">拉取模型</button>
-<button class="btn" onclick="saveConfig()">保存配置</button>
+  <div class="app-header"><div class="back-btn" onclick="goHome()">返回</div><div class="app-title">设置</div></div>
+  <div class="content">
+    <input id="apiUrl" placeholder="API URL" style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;margin-bottom:10px;box-sizing:border-box">
+    <input id="apiKey" placeholder="API Key" type="password" style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;margin-bottom:10px;box-sizing:border-box">
+    <input id="apiModel" list="modelList" placeholder="模型名称" style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;margin-bottom:10px;box-sizing:border-box">
+    <datalist id="modelList"></datalist>
+    <button class="btn" onclick="pullModel()">拉取模型</button>
+    <button class="btn" onclick="saveConfig()">保存配置</button>
+  </div>
 </div>
-</div>
+<!-- 微信屏幕（登录页 + 主界面） -->
 <div id="chat-screen" class="screen hidden">
-<div class="app-header">
-<div class="back-btn" onclick="goHome()">返回</div>
-<div class="app-title">微信</div>
-<button class="wx-add" onclick="addFriend()">+添加好友</button>
+  <!-- 登录页 -->
+  <div id="wx-login-page" class="wx-login">
+    <h2>微信登录</h2>
+    <input id="login-account" placeholder="账号" value="">
+    <input id="login-pwd" type="password" placeholder="密码" value="">
+    <button onclick="login()">登录</button>
+    <div style="margin-top:20px;color:#888;">输入任意账号密码，新账号自动创建</div>
+  </div>
+  <!-- 微信主界面（登录后显示） -->
+  <div id="wx-main" class="hidden" style="height:100%; position:relative;">
+    <div class="app-header">
+      <div class="back-btn" onclick="goHome()">返回</div>
+      <div class="app-title">微信</div>
+      <button class="wx-add" onclick="showAddFriend()">+添加好友</button>
+    </div>
+    <!-- 微信列表页（聊天） -->
+    <div id="wx-page-list" class="wx-list"><div id="wx-chat-list" style="padding-bottom:10px;"></div></div>
+    <!-- 通讯录页 -->
+    <div id="wx-page-contact" class="wx-list hidden">
+      <div style="padding:10px;">
+        <div style="background:#fff;border-radius:10px;">
+          <div class="wx-item" onclick="showRequests()"><div style="font-weight:700;">新的朋友</div><span id="request-badge" style="background:red;color:#fff;border-radius:10px;padding:2px 6px;margin-left:10px;display:none;"></span></div>
+          <div class="wx-item" onclick="showContactList()"><div style="font-weight:700;">通讯录</div></div>
+        </div>
+      </div>
+    </div>
+    <!-- 我页面 -->
+    <div id="wx-page-me" class="wx-list hidden">
+      <div style="padding:20px;text-align:center;">
+        <div class="avatar" id="me-avatar" style="margin:0 auto;"></div>
+        <h3 id="me-name"></h3>
+        <p id="me-account"></p>
+        <button class="btn" onclick="logout()" style="width:80%;">切换账号</button>
+      </div>
+    </div>
+    <!-- 底部导航 -->
+    <div class="wx-tab">
+      <div class="wx-tab-item active" onclick="wxTab('list', event)">微信</div>
+      <div class="wx-tab-item" onclick="wxTab('contact', event)">通讯录</div>
+      <div class="wx-tab-item" onclick="wxTab('me', event)">我</div>
+    </div>
+    <!-- 聊天页面（隐藏，进入聊天时显示） -->
+    <div id="wx-page-chat" class="hidden">
+      <div class="my-avatars" id="myAvatars"></div>
+      <div id="chatBox"></div>
+      <div style="padding:15px 20px 25px; display:flex; gap:10px; background:#f9f9f9; border-top:1px solid #eee">
+        <input style="flex:1; padding:12px 15px; border:1px solid #ddd; border-radius:20px; outline:none" id="msgInput" placeholder="发消息..." onkeypress="if(event.key=='Enter')send()">
+        <button style="padding:0 20px; background:#07c160; color:#fff; border:none; border-radius:20px; font-weight:700" onclick="send()">发送</button>
+      </div>
+    </div>
+    <!-- 添加好友浮层 -->
+    <div id="wx-add-friend" class="floating-layer hidden">
+      <div class="app-header"><div class="back-btn" onclick="hideAddFriend()">返回</div><div class="app-title">添加好友</div></div>
+      <div style="padding:20px;">
+        <input id="search-account" placeholder="输入对方账号" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;">
+        <button class="btn" onclick="searchFriend()">搜索</button>
+        <div id="search-result" style="margin-top:20px;"></div>
+      </div>
+    </div>
+    <!-- 新的朋友浮层 -->
+    <div id="wx-requests-page" class="floating-layer hidden">
+      <div class="app-header"><div class="back-btn" onclick="hideRequests()">返回</div><div class="app-title">新的朋友</div></div>
+      <div id="requests-list" style="padding:10px;"></div>
+    </div>
+    <!-- 通讯录好友列表浮层 -->
+    <div id="wx-contact-list" class="floating-layer hidden">
+      <div class="app-header"><div class="back-btn" onclick="hideContactList()">返回</div><div class="app-title">通讯录</div></div>
+      <div id="contact-list" style="padding:10px;"></div>
+    </div>
+  </div>
 </div>
-<div id="wx-page-list" class="wx-list">
-<div id="wx-chat-list" style="padding-bottom:10px"></div>
+<!-- 心语弹窗 -->
+<div class="heart-popup heart-hide" id="heartPopup"><div id="heartText"></div><button onclick="closeHeart()" style="margin-top:10px;width:100%;padding:8px;background:#ff9a9e;color:#fff;border:none;border-radius:8px">关闭</button></div>
 </div>
-<div id="wx-page-chat" class="wx-list hidden">
-<div class="my-avatars" id="myAvatars"></div>
-<div id="chatBox" style="height:calc(100% - 50px);padding:10px;overflow-y:auto;display:flex;flex-direction:column;gap:10px"></div>
-<div style="position:absolute;bottom:0;left:0;right:0;padding:15px 20px 25px;display:flex;gap:10px;background:#f9f9f9;border-top:1px solid #eee">
-<input style="flex:1;padding:12px 15px;border:1px solid #ddd;border-radius:20px;outline:none" id="msgInput" placeholder="发消息..." onkeypress="if(event.key=='Enter')send()">
-<button style="padding:0 20px;background:#ff9a9e;color:#fff;border:none;border-radius:20px;font-weight:700" onclick="send()">发送</button>
-</div>
-</div>
-<div class="wx-tab">
-<div class="wx-tab-item active" onclick="wxTab('list', event)">微信</div>
-<div class="wx-tab-item" onclick="wxTab('contact', event)">通讯录</div>
-<div class="wx-tab-item" onclick="wxTab('me', event)">我</div>
-</div>
-<div class="heart-popup heart-hide" id="heartPopup">
-<div id="heartText"></div>
-<button onclick="closeHeart()" style="margin-top:10px;width:100%;padding:8px;background:#ff9a9e;color:#fff;border:none;border-radius:8px">关闭</button>
-</div>
-</div>
-</div>
-<script>
-// 修复1: 安全JSON解析
-function safeJSONParse(str, defaultValue) {
-  try {
-    return JSON.parse(str) || defaultValue;
-  } catch (e) {
-    return defaultValue;
-  }
-}
-// 修复2: 改用普通函数确保兼容性
-function $(id) {
-  return document.getElementById(id);
-}
-let target='',photos=[],selectMode=!1,selected=[],currIdx=0
-setInterval(()=>{const d=new Date();$('clock').innerText=`${String(d.getHours()).padStart(2,0)}:${String(d.getMinutes()).padStart(2,0)}`},1e3)
-function openApp(id){
-  document.querySelectorAll('.screen').forEach(s=>{
-    s.classList.add('hidden');
-    s.classList.remove('active')
-  });
-  $(id).classList.remove('hidden');
-  $(id).classList.add('active');
-  if(id==='chat-screen'){
-    renderWX();
-    renderMyAvatars()
-  }
-}
-function goHome(){openApp('home')}
-function setTarget(t){target=t;$('file').click()}
-$('file').onchange=e=>{
-  const f=e.target.files[0];
-  if(!f)return;
-  const u=URL.createObjectURL(f);
-  if(target==='wallpaper') $('home').style.backgroundImage=`url(${u})`;
-  else if(target==='avatar') $(target).innerHTML=`<img src="${u}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
-  else if(target==='clock') $(target).style.background=`url(${u}) center/cover`;
-  else if(target.startsWith('widget-')) $(target).innerHTML=`<img src="${u}" style="width:100%;height:100%;object-fit:cover;">`;
-  $('file').value='';
-  alert('更换成功啦！')
-}
-function render(){
-  const g=$('photoGrid');
-  g.innerHTML='';
-  photos.forEach((p,i)=>{
-    const div=document.createElement('div');
-    div.className='photo-item';
-    if(selected.includes(i)) div.classList.add('selected');
-    div.style.backgroundImage=`url(${p.url})`;
-    div.onclick=()=>selectMode?toggle(i):openDetail(i);
-    g.appendChild(div)
-  })
-}
-function toggleSelect(){
-  selectMode=!selectMode;
-  selected=[];
-  document.querySelectorAll('.btn-red,.btn-green').forEach(b=>b.style.display=selectMode?'inline-block':'none');
-  render()
-}
-function toggle(i){
-  if(selected.includes(i)){
-    selected=selected.filter(x=>x!==i)
-  }else{
-    selected.push(i)
-  }
-  render()
-}
-function delSelect(){
-  if(selected.length && confirm('确定删除？')){
-    photos=photos.filter((_,i)=>!selected.includes(i));
-    selected=[];
-    selectMode=!1;
-    document.querySelectorAll('.btn-red,.btn-green').forEach(b=>b.style.display='none');
-    render()
-  }
-}
-function shareSelect(){alert('分享成功！')}
-function openDetail(i){
-  currIdx=i;
-  const p=photos[i];
-  const t=new Date(p.time);
-  $('showImg').src=p.url;
-  $('showTime').innerText=`${t.getFullYear()}-${t.getMonth()+1}-${t.getDate()} ${t.getHours()}:${String(t.getMinutes()).padStart(2,0)}`;
-  $('photo-detail').classList.remove('hidden')
-}
-function closeDetail(){$('photo-detail').classList.add('hidden')}
-function openFirstPhoto(){photos.length?openDetail(0):alert('还没照片哦')}
-function shareDetail(){alert('分享成功！')}
-function removeDetail(){if(confirm('确定移出？')){photos.splice(currIdx,1);closeDetail();render()}}
-function delDetail(){if(confirm('确定删除？')){photos.splice(currIdx,1);closeDetail();render()}}
-function setWallpaper(){if(confirm('设为壁纸？')){$('home').style.backgroundImage=`url(${photos[currIdx].url})`;alert('壁纸设置成功！')}}
-$('galleryFile').onchange=e=>{
-  [...e.target.files].forEach(f=>{
-    photos.push({url:URL.createObjectURL(f),time:Date.now()})
-  });
-  render();
-  alert('照片添加成功！');
-  $('galleryFile').value=''
-}
-async function pullModel(){
-  const url=$('apiUrl').value,key=$('apiKey').value;
-  if(!url||!key){alert('先填API地址和密钥');return}
-  try{
-    let baseUrl=url;
-    if(baseUrl.includes('/chat/completions')) baseUrl=baseUrl.replace('/chat/completions','/models');
-    if(!baseUrl.endsWith('/models')) baseUrl=baseUrl.replace(/\/$/,'')+'/models';
-    const res=await fetch(baseUrl,{headers:{Authorization:`Bearer ${key}`}});
-    const data=await res.json();
-    if(data&&data.data){
-      const dl=$('modelList');
-      dl.innerHTML='';
-      data.data.forEach(m=>{
-        const o=document.createElement('option');
-        o.value=m.id;
-        dl.appendChild(o)
-      })
-    }
-    alert('拉取成功')
-  }catch(e){alert('网络或接口错误')}
-}
-function saveConfig(){
-  localStorage.apiUrl=$('apiUrl').value;
-  localStorage.apiKey=$('apiKey').value;
-  localStorage.apiModel=$('apiModel').value;
-  alert('配置保存成功')
-}
-// 初始化数据 (使用safeJSONParse)
-let chatHistory = safeJSONParse(localStorage.getItem('chatHistory'), [{role:'bot', content:'配置好API就能聊天啦！'}])
-let myA = safeJSONParse(localStorage.getItem('myAccounts'), [
-  {id:1, name:'雨雨欣', avatar:'', persona:'温柔'},
-  {id:2, name:'小欣', avatar:'', persona:'活泼'}
-])
-let f = safeJSONParse(localStorage.getItem('friends'), [])  // 默认无好友
-let cMy = 1, cF = null
-function renderChat(){
-  const box=$('chatBox');
-  box.innerHTML='';
-  chatHistory.forEach(m=>{
-    const isU=m.role==='user';
-    box.innerHTML+=`<div style="max-width:75%;padding:12px 16px;border-radius:20px;background:${isU?'#ff9a9e':'#fff'};color:${isU?'#fff':'#333'};align-self:${isU?'flex-end':'flex-start'}">${m.content}</div>`
-  });
-  box.scrollTop=box.scrollHeight
-}
-async function send(){
-  const t=$('msgInput').value.trim();
-  if(!t)return;
-  chatHistory.push({role:'user',content:t});
-  localStorage.setItem('chatHistory',JSON.stringify(chatHistory));
-  renderChat();
-  $('msgInput').value='';
-  const url=localStorage.getItem('apiUrl'),key=localStorage.getItem('apiKey'),model=localStorage.getItem('apiModel')||'gpt-3.5-turbo';
-  if(!url||!key){
-    chatHistory.push({role:'bot',content:'快去设置填API！'});
-    renderChat();
-    return
-  }
-  const lId='loading-'+Date.now();
-  $('chatBox').innerHTML+=`<div id="${lId}" style="max-width:75%;padding:12px 16px;border-radius:20px;background:#fff;align-self:flex-start">思考中...</div>`;
-  $('chatBox').scrollTop=$('chatBox').scrollHeight;
-  try{
-    const ms=chatHistory.filter(m=>m.content!='配置好API就能聊天啦！').map(m=>({role:m.role==='bot'?'assistant':'user',content:m.content}));
-    let fUrl=url.trim();
-    if(!fUrl.endsWith('/chat/completions')){
-      if(fUrl.endsWith('/v1')) fUrl+='/chat/completions';
-      else if(!fUrl.includes('/v1/')) fUrl=fUrl.replace(/\/$/,'')+'/v1/chat/completions'
-    }
-    const res=await fetch(fUrl,{
-      method:'POST',
-      headers:{'Content-Type':'application/json',Authorization:`Bearer ${key.trim()}`},
-      body:JSON.stringify({model:model.trim(),messages:ms})
-    });
-    if(!res.ok) throw new Error('接口报错');
-    const d=await res.json();
-    chatHistory.push({role:'bot',content:d.choices[0].message.content});
-    localStorage.setItem('chatHistory',JSON.stringify(chatHistory));
-    renderChat()
-  }catch(e){
-    // 修复3: 移除可选链，使用传统判断
-    const loadingEl = document.getElementById(lId);
-    if(loadingEl) loadingEl.remove();
-    chatHistory.push({role:'bot',content:`失败：${e.message}`});
-    renderChat()
-  }
-}
-function renderWX(){
-  const l=$('wx-chat-list');
-  l.innerHTML='';
-  f.forEach(i=>{
-    l.innerHTML+=`<div class="wx-item" onclick="openChat(${i.id})"><div class="wx-avatar" style="background-image:url(${i.avatar})" onclick="showHeart(${i.id})"></div><div class="wx-name">${i.name}</div></div>`
-  })
-}
-function renderMyAvatars(){
-  const b=$('myAvatars');
-  b.innerHTML='';
-  myA.forEach(a=>{
-    b.innerHTML+=`<div class="my-avatar ${a.id==cMy?'active':''}" style="background-image:url(${a.avatar})" onclick="switchMy(${a.id})"></div>`
-  })
-}
-function switchMy(id){cMy=id;renderMyAvatars();alert('切换人设成功')}
-function openChat(id){cF=id;$('wx-page-list').classList.add('hidden');$('wx-page-chat').classList.remove('hidden');renderChat()}
-function addFriend(){
-  const n=prompt('好友名：');
-  if(!n)return;
-  f.push({id:f.length+1,name:n,avatar:photos.length?photos[0].url:'',heart:'心里话'});
-  localStorage.setItem('friends',JSON.stringify(f));
-  renderWX()
-}
-function showHeart(id){
-  const o=f.find(x=>x.id==id);
-  $('heartText').innerText=o.heart;
-  $('heartPopup').classList.remove('heart-hide')
-}
-function closeHeart(){$('heartPopup').classList.add('heart-hide')}
-// 修复4: 恢复原代码中的initWX函数
-function initWX(){
-  renderMyAvatars();
-  renderWX()
-}
-function wxTab(p, event){
-  const el = event.target;
-  document.querySelectorAll('.wx-tab-item').forEach(i=>i.classList.remove('active'));
-  el.classList.add('active');
-  $('wx-page-list').classList.add('hidden');
-  $('wx-page-chat').classList.add('hidden');
-  if(p==='list'){
-    $('wx-page-list').classList.remove('hidden');
-    renderWX()
-  }else if(p==='contact'){
-    $('wx-page-list').classList.remove('hidden');
-    renderWX()
-  }else{
-    $('wx-page-list').classList.remove('hidden');
-    $('wx-chat-list').innerHTML='<div style="padding:20px;text-align:center">我的账号</div>'
-  }
-}
-window.onload=()=>{
-  if(localStorage.apiUrl) $('apiUrl').value=localStorage.apiUrl;
-  if(localStorage.apiKey) $('apiKey').value=localStorage.apiKey;
-  if(localStorage.apiModel) $('apiModel').value=localStorage.apiModel;
-  renderChat();
-  initWX()  // 调用恢复的initWX
-}
-</script>
+<script src="script.js"></script>
 </body>
 </html>
